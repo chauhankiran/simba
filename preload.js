@@ -1,0 +1,32 @@
+const { contextBridge, ipcRenderer } = require('electron');
+
+contextBridge.exposeInMainWorld('electronAPI', {
+  onMenuNew: (callback) => ipcRenderer.on('menu-new', callback),
+  onFileOpened: (callback) => ipcRenderer.on('file-opened', (event, data, filePath) => callback(data, filePath)),
+  onMenuSave: (callback) => ipcRenderer.on('menu-save', callback),
+  onMenuSaveAs: (callback) => ipcRenderer.on('menu-save-as', callback),
+  onMenuUndo: (callback) => ipcRenderer.on('menu-undo', callback),
+  onMenuRedo: (callback) => ipcRenderer.on('menu-redo', callback),
+  onMenuCut: (callback) => ipcRenderer.on('menu-cut', callback),
+  onMenuCopy: (callback) => ipcRenderer.on('menu-copy', callback),
+  onMenuPaste: (callback) => ipcRenderer.on('menu-paste', callback),
+  onMenuSelectAll: (callback) => ipcRenderer.on('menu-select-all', callback),
+  onMenuClearSelection: (callback) => ipcRenderer.on('menu-clear-selection', callback),
+  onMenuResize: (callback) => ipcRenderer.on('menu-resize', callback),
+  onMenuScale: (callback) => ipcRenderer.on('menu-scale', callback),
+  onMenuCrop: (callback) => ipcRenderer.on('menu-crop', callback),
+  onMenuFlipHorizontal: (callback) => ipcRenderer.on('menu-flip-horizontal', callback),
+  onMenuFlipVertical: (callback) => ipcRenderer.on('menu-flip-vertical', callback),
+  onMenuRotateCW: (callback) => ipcRenderer.on('menu-rotate-cw', callback),
+  onMenuRotateCCW: (callback) => ipcRenderer.on('menu-rotate-ccw', callback),
+  onMenuZoomIn: (callback) => ipcRenderer.on('menu-zoom-in', callback),
+  onMenuZoomOut: (callback) => ipcRenderer.on('menu-zoom-out', callback),
+  onMenuZoomReset: (callback) => ipcRenderer.on('menu-zoom-reset', callback),
+  onMenuToggleGrid: (callback) => ipcRenderer.on('menu-toggle-grid', callback),
+  saveFile: (data) => ipcRenderer.invoke('save-file', data),
+  showSaveDialog: () => ipcRenderer.invoke('show-save-dialog'),
+  onCheckDirty: (callback) => ipcRenderer.on('check-dirty', callback),
+  sendDirtyStatus: (isDirty) => ipcRenderer.send('dirty-status', isDirty),
+  onSaveAndClose: (callback) => ipcRenderer.on('save-and-close', callback),
+  sendSaveComplete: (success) => ipcRenderer.send('save-complete', success)
+});
